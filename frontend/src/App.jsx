@@ -10,12 +10,16 @@ import ValidationInspector from './pages/ValidationInspector';
 import ConflictCenter from './pages/ConflictCenter';
 import PlanningMemory from './pages/PlanningMemory';
 import Analytics from './pages/Analytics';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* We'll add Login/Register later, for now everything is accessible */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
@@ -29,7 +33,6 @@ function App() {
           <Route path="conflicts" element={<ConflictCenter />} />
           <Route path="analytics" element={<Analytics />} />
           
-          {/* Stubs for other routes */}
           <Route path="*" element={<div className="heading-2">Page under construction</div>} />
         </Route>
       </Routes>

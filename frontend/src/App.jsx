@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 import AIPlanner from './pages/AIPlanner';
@@ -13,6 +13,14 @@ import Analytics from './pages/Analytics';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+const ProtectedRoute = () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return <Outlet />;
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -20,7 +28,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         
-        <Route path="/" element={<DashboardLayout />}>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="planner" element={<AIPlanner />} />
@@ -34,6 +43,7 @@ function App() {
           <Route path="analytics" element={<Analytics />} />
           
           <Route path="*" element={<div className="heading-2">Page under construction</div>} />
+        </Route>
         </Route>
       </Routes>
     </BrowserRouter>
